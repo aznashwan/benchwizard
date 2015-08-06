@@ -63,3 +63,4 @@
 <p>The FPS count is computed and saved once every second. Average fps is computed as a division between the sum of frames for each second and the number of counted seconds. The average FPS displayed as a score is computed starting at the 5<sup>th</sup> second, where I found that the FPS count stabilizes even on weaker systems. I decided to only display the average FPS count because it holds the most value to the user and for the sake of simplicity. The current FPS count can always be seen in the title of the application frame.</p>
 
 <p><b>BenchWizard was developed as a benchmarking laboratory project.</b></p>
+<h2>To see it in action run BenchWizard.jar</h2>
