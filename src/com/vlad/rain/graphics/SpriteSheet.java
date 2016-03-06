@@ -2,6 +2,7 @@ package com.vlad.rain.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -12,7 +13,9 @@ public class SpriteSheet {
 	public int[] pixels;
 	
 	public static SpriteSheet tiles = new SpriteSheet("/textures/spritesheet.png", 256);
-	public static SpriteSheet player = new SpriteSheet("/wizard.png", 256);
+
+	private static String[] heroes = {"wizard", "warlock", "knight", "sir"};
+	public static SpriteSheet player = new SpriteSheet("/" + heroes[new Random().nextInt(4)] +".png", 256);
 	
 	public SpriteSheet(String path, int size){
 		this.path = path;

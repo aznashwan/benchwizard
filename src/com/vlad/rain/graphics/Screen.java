@@ -1,5 +1,6 @@
 package com.vlad.rain.graphics;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 //import com.vlad.rain.entity.mob.Player;
@@ -59,7 +60,16 @@ public class Screen {
 				if (xa < -16 || xa >= width || ya < 0 || ya >= width) break;
 				if (xa < 0) xa = 0;
 				int col = sprite.pixels[x + y * 16];
-				if (col != 0xffff00e5) pixels[xa + ya * width] = col;
+
+				ArrayList<Integer> pink = new ArrayList<>();
+				pink.add(0xffff02e3);
+				pink.add(0xfffd00e1);
+				pink.add(0xffff00e5);
+                pink.add(0xfffe07e6);
+                pink.add(0xffff0ce5);
+                pink.add(0xfff306da);
+
+				if (!pink.contains(col)) pixels[xa + ya * width] = col;
 			}
 		}
 	}
