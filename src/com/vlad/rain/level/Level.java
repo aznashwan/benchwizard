@@ -59,26 +59,17 @@ public class Level {
 		}
 			
 	}
-	
-	// Grass:  0xFFB6FF00
-	// Flower: 0xFFFFD800
-	// Pebble: 0xFF808080
+
 	// Wall:  0xFF404040
 	// Wood:   0xFFCE5200
 	// Brick:   0xFF7F3300
-	// Boat1: 0xFFFF00E1
-	// Boat2: 0xFF00FFF6
 	public Tile getTile(int x, int y) {
-		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.water;
-		if (tiles[x + y * width] == 0xFFB6FF00) return Tile.grass;
-		if (tiles[x + y * width] == 0xFFFFD800) return Tile.flower;
-		if (tiles[x + y * width] == 0xFF808080) return Tile.pebble;
+		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == 0xFF404040) return Tile.wood_wall;
 		if (tiles[x + y * width] == 0xFFCE5200) return Tile.wood;
 		if (tiles[x + y * width] == 0xFF7F3300) return Tile.brick;
-		if (tiles[x + y * width] == 0xFFFF00E1) return Tile.boat1;
-		if (tiles[x + y * width] == 0xFF00FFF6) return Tile.boat2;
-		return Tile.water;
+		return Tile.voidTile;
+
 	}
 
 }

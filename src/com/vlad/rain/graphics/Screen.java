@@ -15,15 +15,14 @@ public class Screen {
 	public int xOffset, yOffset;
 	
 	public int[] tiles = new int[MAP_SIZE*MAP_SIZE];
-	
-	private Random random =  new Random();
-	
+
 	public Screen(int width, int height){
 		this.width = width;
 		this.height = height;
 		
 		pixels = new int[(int) (width*height*1.1)];
-		
+
+		Random random = new Random();
 		for (int i = 0; i < MAP_SIZE*MAP_SIZE; i++)
 			tiles[i] = random.nextInt(0xffffff);
 	}
