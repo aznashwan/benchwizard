@@ -10,6 +10,8 @@ public class Sprite {
 	public static Sprite brick = new Sprite(16, 6, 1, SpriteSheet.tiles);
 	public static Sprite wood1 = new Sprite(16, 5, 0, SpriteSheet.tiles);
 	public static Sprite wood_wall = new Sprite(16, 6, 0, SpriteSheet.tiles);
+	public static Sprite star_big = new Sprite(16, 7, 0, SpriteSheet.tiles);
+    public static Sprite star = new Sprite(16, 8, 0, SpriteSheet.tiles);
 	
 	public static Sprite voidSprite = new Sprite(16, 0xA4A4A4);
 

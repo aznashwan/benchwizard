@@ -19,11 +19,13 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
-	public static int width = 36 * 16;
+	public static int width = 25 * 16;
 	public static int height = width / 16 * 9;
 	public static int scale = 3;
 	
 	public static String title = "FoodMaze";
+
+    public static int SCORE = 0;
 	
 	private Thread thread;
 	private JFrame frame;
@@ -98,7 +100,7 @@ public class Game extends Canvas implements Runnable {
 			
 			if (System.currentTimeMillis() - timer > 1000){
 				timer = timer + 1000;
-				frame.setTitle(title + "    " + frames + " fps");
+                System.out.println(frames + " fps");
 				updates = 0;
 				frames = 0;
 			}
@@ -111,7 +113,8 @@ public class Game extends Canvas implements Runnable {
 	public void update(){
 		key.update();
 		player.update();
-		
+		level.update(player);
+        frame.setTitle(title + "   " + SCORE);
 	}
 	
 	public void render(){

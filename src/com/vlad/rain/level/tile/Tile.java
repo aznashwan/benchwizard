@@ -9,6 +9,7 @@ public class Tile {
 	public Sprite sprite;
 	
 	public static Tile wood = new WoodTile(Sprite.wood1);
+	public static Tile star = new WoodTile(Sprite.star);
 	public static Tile wood_wall = new RockTile(Sprite.wood_wall);
 	public static Tile brick = new RockTile(Sprite.brick);
 
