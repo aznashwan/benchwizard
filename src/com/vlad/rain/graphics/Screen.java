@@ -29,13 +29,16 @@ public class Screen {
 	}
 	
 	public void clear(){
+
 		for (int i = 0; i < pixels.length; i++)
 			pixels[i] = 0;
+
 	}
 	
 
 	
 	public void renderTile(int xp, int yp, Tile tile) {
+
 		xp -= xOffset;
 		yp -= yOffset;
 		for (int y = 0; y < tile.sprite.SIZE; y++) {
@@ -51,6 +54,7 @@ public class Screen {
 	}
 	
 	public void renderPlayer(int xp, int yp, Sprite sprite) {
+
 		xp -= xOffset;
 		yp -= yOffset;
 		for (int y = 0; y < 16; y++) {
@@ -72,11 +76,14 @@ public class Screen {
 				if (!pink.contains(col)) pixels[xa + ya * width] = col;
 			}
 		}
+
 	}
 	
 	public void setOffset(int xOffset, int yOffset) {
+
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
+
 	}
 	
 	

@@ -4,6 +4,7 @@ package com.vlad.rain.ai;
  * Created by Vlad on 06.03.2016.
  */
 public class Node {
+
     private Node parent;
     private Node[] children;
     private int[] score;

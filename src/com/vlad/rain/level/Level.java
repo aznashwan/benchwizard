@@ -23,7 +23,6 @@ public class Level {
 	protected void generateLevel(){
 		
 	}
-		
 	
 	public Level(String path){
 		
@@ -36,7 +35,6 @@ public class Level {
 		
 	}
 
-	
 	public void update(Player player){
 
         int index_down = (player.getXPosition() + 5)/16 + (player.getYPosition() + 10)/16 * width,
@@ -53,14 +51,8 @@ public class Level {
 
     }
 	
-	/*
-	private void time(){
-		
-	}
-	*/
-	
-	
 	public void render(int xScroll, int yScroll, Screen screen){
+
 		screen.setOffset(xScroll, yScroll);
 		int x0 = xScroll >> 4;
 		int x1 = (xScroll + screen.width + 16) >> 4;
@@ -80,6 +72,7 @@ public class Level {
 	// Brick:   0xFF7F3300
 	// Star:   0xFFFFD200
 	public Tile getTile(int x, int y) {
+
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == 0xFF404040) return Tile.wood_wall;
 		if (tiles[x + y * width] == 0xFFCE5200) return Tile.wood;
@@ -88,5 +81,17 @@ public class Level {
 		return Tile.voidTile;
 
 	}
+
+    public int[] getLayout(){
+        return this.tiles;
+    }
+
+    public int getWidth(){
+        return this.width;
+    }
+
+    public int getHeight(){
+        return this.height;
+    }
 
 }

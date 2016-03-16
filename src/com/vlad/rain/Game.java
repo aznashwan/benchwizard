@@ -1,5 +1,6 @@
 package com.vlad.rain;
 
+import com.vlad.rain.ai.Score;
 import com.vlad.rain.entity.mob.Player;
 import com.vlad.rain.graphics.Screen;
 import com.vlad.rain.input.Key;
@@ -17,6 +18,7 @@ import java.awt.image.DataBufferInt;
 
 @SuppressWarnings("unused")
 public class Game extends Canvas implements Runnable {
+
 	private static final long serialVersionUID = 1L;
 	
 	public static int width = 25 * 16;
@@ -41,6 +43,7 @@ public class Game extends Canvas implements Runnable {
 	
 	
 	public Game(){
+
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		
@@ -50,13 +53,14 @@ public class Game extends Canvas implements Runnable {
 		
 		key = new Key();
 		level = new SpawnLevel("/level.png");
-		player = new Player(2*16,2*16,key);
+		player = new Player(2*16, 2*16, key);
 		player.init(level);
 		addKeyListener(key);
 
 	}
 	
 	public synchronized void start(){
+
 		running = true;
 		thread = new Thread(this, "Display");
 		thread.start();
@@ -64,6 +68,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public synchronized void stop(){
+
 		running = false;
 		try{
 			thread.join();
@@ -75,6 +80,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void run(){
+
 		long lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();
 		final double ns = 1000000000.0 / 60.0;
@@ -83,8 +89,8 @@ public class Game extends Canvas implements Runnable {
 		int updates = 0;
 		
 		requestFocus();
-		
-		while(running){
+
+        while(running){
 			long now = System.nanoTime();
 			delta = delta + (now - lastTime)/ns;
 			lastTime = now;
@@ -108,13 +114,14 @@ public class Game extends Canvas implements Runnable {
 		stop();
 
 	}
-	
-	
+
 	public void update(){
+
 		key.update();
 		player.update();
 		level.update(player);
         frame.setTitle(title + "   " + SCORE);
+
 	}
 	
 	public void render(){
@@ -142,8 +149,7 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 
 	}
-	
-	
+
 	public static synchronized void playMusic() {
 		  new Thread(() -> {
             try {
@@ -159,8 +165,8 @@ public class Game extends Canvas implements Runnable {
 
 	}
 
-	
 	public static void main(String[] args){
+
 		Game game = new Game();
 
 		game.frame.setResizable(true);
