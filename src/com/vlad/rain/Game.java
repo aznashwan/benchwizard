@@ -1,6 +1,5 @@
 package com.vlad.rain;
 
-import com.vlad.rain.ai.Score;
 import com.vlad.rain.entity.mob.Player;
 import com.vlad.rain.graphics.Screen;
 import com.vlad.rain.input.Key;
@@ -15,6 +14,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class Game extends Canvas implements Runnable {
@@ -34,7 +34,9 @@ public class Game extends Canvas implements Runnable {
 	private Key key;
 	private Level level;
 	private boolean running = false;
-	private Player player;
+	private Player mainPlayer;
+
+	private ArrayList<Player> players = new ArrayList<>();
 
     private Screen screen;
 	
@@ -53,8 +55,11 @@ public class Game extends Canvas implements Runnable {
 		
 		key = new Key();
 		level = new SpawnLevel("/level.png");
-		player = new Player(2*16, 2*16, key);
-		player.init(level);
+
+		mainPlayer = new Player(2*16, 2*16, key);
+		mainPlayer.init(level);
+		players.add(mainPlayer);
+
 		addKeyListener(key);
 
 	}
@@ -85,30 +90,18 @@ public class Game extends Canvas implements Runnable {
 		long timer = System.currentTimeMillis();
 		final double ns = 1000000000.0 / 60.0;
 		double delta = 0;
-		int frames = 0;
-		int updates = 0;
-		
+
 		requestFocus();
 
         while(running){
 			long now = System.nanoTime();
 			delta = delta + (now - lastTime)/ns;
 			lastTime = now;
-			
+
 			while(delta >= 1){
 				update();
-				updates++;
+				render();
 				delta--;
-			}
-			
-			render();
-			frames++;
-			
-			if (System.currentTimeMillis() - timer > 1000){
-				timer = timer + 1000;
-                System.out.println(frames + " fps");
-				updates = 0;
-				frames = 0;
 			}
 		}
 		stop();
@@ -118,8 +111,12 @@ public class Game extends Canvas implements Runnable {
 	public void update(){
 
 		key.update();
-		player.update();
-		level.update(player);
+
+		for (Player p : this.players) {
+			p.update();
+		}
+
+		level.update(mainPlayer);
         frame.setTitle(title + "   " + SCORE);
 
 	}
@@ -132,10 +129,13 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		screen.clear();
-		int xScroll = player.x - screen.width / 2;
-		int yScroll = player.y - screen.height / 2;
+		int xScroll = mainPlayer.x - screen.width / 2;
+		int yScroll = mainPlayer.y - screen.height / 2;
 		level.render(xScroll, yScroll, screen);
-		player.render(screen);
+
+		for (Player p : players) {
+			p.render(screen);
+		}
 
 		for (int i = 0; i < pixels.length; i++)
 			pixels[i] = screen.pixels[i];
