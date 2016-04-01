@@ -117,7 +117,7 @@ public class Score {
 
     }
 
-    // update valueMap with move m of character c --- assumes move is legal
+    // update valueMap with move m of character c: assumes move is legal
     public void move(Characters c, Moves m){
 
         int     X = playerPositions.get(c).fst,

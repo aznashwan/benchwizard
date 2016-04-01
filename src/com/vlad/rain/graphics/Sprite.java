@@ -14,19 +14,6 @@ public class Sprite {
     public static Sprite star = new Sprite(16, 8, 0, SpriteSheet.tiles);
 	
 	public static Sprite voidSprite = new Sprite(16, 0xA4A4A4);
-
-	public static Sprite player_forward = new Sprite(16, 0, 0, SpriteSheet.player);
-	public static Sprite player_back = new Sprite(16, 2, 0, SpriteSheet.player);
-	public static Sprite player_left = new Sprite(16, 3, 0, SpriteSheet.player);
-	public static Sprite player_right = new Sprite(16, 1, 0, SpriteSheet.player);
-	public static Sprite player_forward1 = new Sprite(16, 0, 1, SpriteSheet.player);
-	public static Sprite player_forward2 = new Sprite(16, 0, 2, SpriteSheet.player);
-	public static Sprite player_back1 = new Sprite(16, 2, 1, SpriteSheet.player);
-	public static Sprite player_back2 = new Sprite(16, 2, 2, SpriteSheet.player);
-	public static Sprite player_left1 = new Sprite(16, 3, 1, SpriteSheet.player);
-	public static Sprite player_left2 = new Sprite(16, 3, 2, SpriteSheet.player);
-	public static Sprite player_right1 = new Sprite(16, 1, 1, SpriteSheet.player);
-	public static Sprite player_right2 = new Sprite(16, 1, 2, SpriteSheet.player);
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet){
 		SIZE = size;

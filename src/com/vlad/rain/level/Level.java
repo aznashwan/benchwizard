@@ -1,6 +1,5 @@
 package com.vlad.rain.level;
 
-import com.vlad.rain.Game;
 import com.vlad.rain.entity.mob.Player;
 import com.vlad.rain.graphics.Screen;
 import com.vlad.rain.level.tile.Tile;
@@ -42,11 +41,9 @@ public class Level {
 
         if(tiles[index_down] == 0xFFFFD200){
             tiles[index_down] = 0xFFCE5200;
-            Game.SCORE++;
         }
         if(tiles[index_right] == 0xFFFFD200){
             tiles[index_right] = 0xFFCE5200;
-            Game.SCORE++;
         }
 
     }

@@ -1,5 +1,6 @@
 package com.vlad.rain;
 
+import com.vlad.rain.ai.data.Characters;
 import com.vlad.rain.entity.mob.Player;
 import com.vlad.rain.graphics.Screen;
 import com.vlad.rain.input.DummyKey;
@@ -29,10 +30,8 @@ public class Game extends Canvas implements Runnable {
 	public static int height = width / 16 * 9;
 	public static int scale = 3;
 	
-	public static String title = "FoodMaze";
+	public static String title = "Star Maze";
 
-    public static int SCORE = 0;
-	
 	private Thread thread;
 	private JFrame frame;
 	private Key key;
@@ -70,18 +69,26 @@ public class Game extends Canvas implements Runnable {
 		level = new SpawnLevel("/level.png");
 
 		// NOTE: proper initialisation of numPlayers and current player index is vital:
-		this.numPlayers = 2;
+		this.numPlayers = 4;
 		this.currentPlayerIndex = 0;
 		this.currentPlayerMoved = false;
 
 		// add one player:
-		Player p = new Player(2*16, 2*16, key);
+		Player p = new Player(2*16, 2*16, key, Characters.A);
 		p.init(level);
 		players.add(p);
 
-		p = new Player(33*16, 35*16, this.dummyInput);
+		p = new Player(33*16, 35*16, dummyInput, Characters.B);
 		p.init(level);
 		players.add(p);
+
+        p = new Player(33*16, 2*16, dummyInput, Characters.C);
+        p.init(level);
+        players.add(p);
+
+        p = new Player(2*16, 35*16, dummyInput, Characters.D);
+        p.init(level);
+        players.add(p);
 
 		addKeyListener(key);
 
@@ -147,7 +154,7 @@ public class Game extends Canvas implements Runnable {
 				if (!this.currentPlayerMoved && p.moving) {
 					this.currentPlayerMoved = true;
 					// then, switch off the current player's input:
-					p.input = this.dummyInput;
+					p.input = dummyInput;
 				} else if (this.currentPlayerMoved && !p.moving) { // else, when the player has moved and stopped his turn:
 					// also, switch the input to the next player:
 					this.currentPlayerIndex = (i + 1) % this.numPlayers;
@@ -156,8 +163,6 @@ public class Game extends Canvas implements Runnable {
 				}
 			}
 		}
-
-		frame.setTitle(title + "   " + SCORE);
 
 	}
 	
