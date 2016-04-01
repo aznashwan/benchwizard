@@ -8,14 +8,14 @@ import com.vlad.rain.input.Key;
 
 public class Player extends Mob{
 
-	private Key input;
+	public Key input;
 	private Sprite sprite;
 	private int anim = 0;
 	private boolean walking = false;
 	private int movesMade = 0;
 
 	// used as an indicator if in the one-cell moving process.
-	private boolean moving;
+	public boolean moving;
 
 	// 1 = right, 2 = down, 3 = left, 4 = up
 	private int going = 0;
@@ -88,7 +88,6 @@ public class Player extends Mob{
 				this.movesMade = this.movesMade + 1;
 			}
 		}
-
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
