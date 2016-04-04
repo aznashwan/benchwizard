@@ -7,6 +7,7 @@ import com.vlad.rain.level.Level;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by vlad on 4/4/16.
@@ -28,7 +29,13 @@ public class Droid {
         }
     }
 
+    // returns the best known move KeyEvent for the current player
     public int bestMove(){
+        int[] keys = {KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN};
+
+        // if EASY => random key presses
+        if (tree == null) return keys[new Random().nextInt(3)];
+
         switch(tree.getBestMove(tree.getCurrentCharacter())){
             case LEFT:
                 return KeyEvent.VK_LEFT;
@@ -41,6 +48,7 @@ public class Droid {
         }
     }
 
+    // updates the AI tree based on the received move KeyEvent
     public void actualMove(int move){
         switch(move){
             case KeyEvent.VK_LEFT:

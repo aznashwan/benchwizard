@@ -131,6 +131,7 @@ public class Score {
         int     X = playerPositions.get(c).fst,
                 Y = playerPositions.get(c).snd;
 
+        // walls cannot be moved through
         switch (level.getLayout()[X + Y * level.getWidth()]) {
             case 0xFF7F3300:
             case 0xFF404040:

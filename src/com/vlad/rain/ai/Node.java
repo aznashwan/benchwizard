@@ -57,6 +57,7 @@ public class Node {
         }
     }
 
+    // generates the children of the current Node
     public void generateChildren(){
 
         if (this.children == null){
@@ -105,6 +106,10 @@ public class Node {
         this.parent = parent;
     }
 
+    public void setChildren(Node[] children){
+        this.children = children;
+    }
+
     public Node[] children(){
         return this.children;
     }
@@ -113,6 +118,7 @@ public class Node {
         return this.currentCharacter;
     }
 
+    // decrease current depth and generate new children if none are available and current depth < max depth
     public void decreaseCurrentDepth(){
         currentDepth--;
         if (this.children == null) generateChildren();

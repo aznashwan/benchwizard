@@ -36,6 +36,7 @@ public class Tree {
         return this.root;
     }
 
+    // update the current tree with the received move
     public void actuallyMove(Moves move){
         switch(move){
             case LEFT:
@@ -51,7 +52,11 @@ public class Tree {
                 this.root = this.root.children()[3];
                 break;
         }
+        // no more references to useless part of the tree => will get GC
+        this.root.setChildren(null);
         this.root.setParent(null);
+
+        // decrease the current depth for all remaining nodes and generate next tree layer
         this.root.decreaseCurrentDepth();
     }
 
@@ -80,6 +85,7 @@ public class Tree {
         return this.getActualMove(bestNodeIndex);
     }
 
+    // returns the move that resulted in the leaf node given as its index
     private Moves getActualMove(int bestLeafIndex){
         int current = (bestLeafIndex / 4);
         for(int i = this.maxDepth - 2; i > 0; i--){
@@ -93,11 +99,13 @@ public class Tree {
         }
     }
 
+    // returns the Node which has the smallest deviation in the scores of players other than the main (current) player
     private Node bestAdversaryDeviation(ArrayList<Node> minAdversaryScoreSum){
         // TODO eventually
         return minAdversaryScoreSum.get(new Random().nextInt(minAdversaryScoreSum.size()));
     }
 
+    // returns the list of Nodes which have the minimum total score for all players other than the main (current) player
     private ArrayList<Node> minAdversaryScoreSum(Characters main, ArrayList<Node> maxValues){
 
         ArrayList<Node> result = new ArrayList<>();
@@ -117,6 +125,7 @@ public class Tree {
 
     }
 
+    // computes the sum of the scores of all players other than the main (current) player
     private int computeAdversaryScoreSum(Characters main, Node node){
         int sum = 0;
         for(int i = 0; i < node.points.length; i++){
@@ -126,6 +135,7 @@ public class Tree {
         return sum;
     }
 
+    // returns a list of all the leaf nodes starting with the given root
     private ArrayList<Node> getLeafNodes(Node node){
         ArrayList<Node> leafNodes = new ArrayList<>();
         if (node.children() == null) {
