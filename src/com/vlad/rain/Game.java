@@ -1,5 +1,6 @@
 package com.vlad.rain;
 
+import com.vlad.rain.ai.Droid;
 import com.vlad.rain.ai.data.Characters;
 import com.vlad.rain.entity.mob.Player;
 import com.vlad.rain.graphics.Screen;
@@ -26,9 +27,9 @@ public class Game extends Canvas implements Runnable {
 	// used as the key for players whose turn it currently isn't:
 	private static final DummyKey dummyInput = new DummyKey();
 	
-	public static int width = 25 * 16;
+	public static int width = 30 * 16;
 	public static int height = width / 16 * 9;
-	public static int scale = 3;
+	public static int scale = 2;
 	
 	public static String title = "Star Maze";
 
@@ -49,6 +50,9 @@ public class Game extends Canvas implements Runnable {
 
 	// indicated that the current player is moving.
 	private boolean currentPlayerMoved;
+
+    // input controller for AI
+    private Droid droid;
 
     private Screen screen;
 	
@@ -226,7 +230,6 @@ public class Game extends Canvas implements Runnable {
 		game.frame.setVisible(true);
 
 		game.start();
-
-	}
+    }
 	
 }

@@ -27,6 +27,12 @@ public class Score {
 
     }
 
+    public Score(Level level, int[][] valueMap, HashMap<Characters, Pair<Integer, Integer>> playerPositions){
+        this.level = level;
+        this.valueMap = valueMap;
+        this.playerPositions = playerPositions;
+    }
+
     // creates value map 2D array from the level layout
     private void generateValueMap() {
 
@@ -55,6 +61,8 @@ public class Score {
     // return the score after all moves starting from current valueMap of the @current player
     public int score(Characters current, Moves[] m){
 
+//        System.out.println("Current: " + current + " moves " + m[0]);
+
         int[][] valueMapClone = Arrays.stream(valueMap)
                 .map(int[]::clone)
                 .toArray(int[][]::new);
@@ -62,27 +70,27 @@ public class Score {
 
         int score = 0;
 
-        for(int index = 0; index < m.length; index++){
+        for (Moves aM : m) {
 
-            int     playerX = playerPositionsClone.get(current).fst,
+            int playerX = playerPositionsClone.get(current).fst,
                     playerY = playerPositionsClone.get(current).snd;
 
-            switch(m[index]){
+            switch (aM) {
                 case UP:
-                    if(playerY != 0) playerY--;
+                    if (playerY != 0) playerY--;
                     break;
                 case DOWN:
-                    if(playerY != level.getHeight()) playerY++;
+                    if (playerY != level.getHeight()) playerY++;
                     break;
                 case LEFT:
-                    if(playerX != 0) playerX--;
+                    if (playerX != 0) playerX--;
                     break;
                 case RIGHT:
-                    if(playerX != level.getHeight()) playerX++;
+                    if (playerX != level.getHeight()) playerX++;
                     break;
             }
 
-            switch(level.getLayout()[playerX + playerY * level.getWidth()]){
+            switch (level.getLayout()[playerX + playerY * level.getWidth()]) {
                 case 0xFF7F3300:
                 case 0xFF404040:
                     continue;
@@ -123,6 +131,12 @@ public class Score {
         int     X = playerPositions.get(c).fst,
                 Y = playerPositions.get(c).snd;
 
+        switch (level.getLayout()[X + Y * level.getWidth()]) {
+            case 0xFF7F3300:
+            case 0xFF404040:
+                return;
+        }
+
         switch(m){
             case LEFT:
                 playerPositions.replace(c,new Pair<>(X-1,Y));
@@ -153,6 +167,18 @@ public class Score {
 
         }
 
+    }
+
+    public Level getLevel(){
+        return this.level;
+    }
+
+    public int[][] getValueMap(){
+        return this.valueMap;
+    }
+
+    public HashMap<Characters, Pair<Integer, Integer>> getPlayerPositions(){
+        return this.playerPositions;
     }
 
     public static void main(String[] args){

@@ -11,6 +11,7 @@ public class Player extends Mob{
 	public Key input;
 	private Sprite sprite;
     private PlayerGraphics pg;
+	private Characters character;
 
 	private int anim = 0;
 	private boolean walking = false;
@@ -31,6 +32,7 @@ public class Player extends Mob{
 		this.x = x;
 		this.y = y;
 		this.input = input;
+        this.character = character;
         pg = new PlayerGraphics(character);
     }
 	
@@ -133,6 +135,14 @@ public class Player extends Mob{
 		
 		screen.renderPlayer(x, y, sprite);
 	}
+
+    public Characters getCharacter(){
+        return this.character;
+    }
+
+	public String toString(){
+        return this.character + ": " + this.x / 16 + ", " + this.y / 16;
+    }
 	
 	
 }
