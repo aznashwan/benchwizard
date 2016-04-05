@@ -64,7 +64,7 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	
 	
-	public Game(){
+	public Game(int noOfPlayers, Difficulty difficulty){
 
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
@@ -78,26 +78,36 @@ public class Game extends Canvas implements Runnable {
 		level = new SpawnLevel("/level.png");
 
 		// NOTE: proper initialisation of numPlayers and current player index is vital:
-		this.numPlayers = 4;
+		this.numPlayers = noOfPlayers;
 		this.currentPlayerIndex = 0;
 		this.currentPlayerMoved = false;
 
+        Player p;
+
 		// add one player:
-		Player p = new Player(2*16, 2*16, dummyInput, Characters.A);
-		p.init(level);
-		players.add(p);
+        if(noOfPlayers >= 1){
+            p = new Player(2*16, 2*16, dummyInput, Characters.A);
+            p.init(level);
+            players.add(p);
+        }
 
-		p = new Player(33*16, 35*16, dummyInput, Characters.B);
-		p.init(level);
-		players.add(p);
+        if(noOfPlayers >= 2){
+            p = new Player(33*16, 35*16, dummyInput, Characters.B);
+            p.init(level);
+            players.add(p);
+        }
 
-        p = new Player(33*16, 2*16, dummyInput, Characters.C);
-        p.init(level);
-        players.add(p);
+        if(noOfPlayers >= 3){
+            p = new Player(33*16, 2*16, dummyInput, Characters.C);
+            p.init(level);
+            players.add(p);
+        }
 
-        p = new Player(2*16, 35*16, dummyInput, Characters.D);
-        p.init(level);
-        players.add(p);
+        if(noOfPlayers >= 4){
+            p = new Player(2*16, 35*16, dummyInput, Characters.D);
+            p.init(level);
+            players.add(p);
+        }
 
         this.droid = new Droid(level, players, Difficulty.MEDIUM);
 
@@ -177,11 +187,18 @@ public class Game extends Canvas implements Runnable {
 					this.currentPlayerMoved = true;
 					// then, switch off the current player's input:
 					p.input = dummyInput;
-				} else if (this.currentPlayerMoved && !p.moving) { // else, when the player has moved and stopped his turn:
+                } else if (this.currentPlayerMoved && !p.moving) { // else, when the player has moved and stopped his turn:
 					// also, switch the input to the next player:
 					this.currentPlayerIndex = (i + 1) % this.numPlayers;
 					this.players.get(this.currentPlayerIndex).input = this.keys.get(currentPlayerIndex);
 					this.currentPlayerMoved = false;
+
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
 				}
 			}
 		}
@@ -237,7 +254,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void main(String[] args){
 
-		Game game = new Game();
+		Game game = new Game(4, Difficulty.HARD);
 
 		game.frame.setResizable(true);
 		game.frame.setTitle(title);
