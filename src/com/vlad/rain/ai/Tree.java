@@ -10,13 +10,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by vlad on 4/4/16.
+ * The class representing the game {@link Tree}.
+ * It represents nothing more than a pruned Alpha-Beta tree.
  */
 public class Tree {
 
+    // the root {@link Node} of the {@link Tree}.
     private Node root;
     private int maxDepth;
 
+    /**
+     * @param level the {@link Level} we are currently working on.
+     * @param players the {@link java.util.List} of {@link Player}s.
+     * @param maxDepth the {@link int} maximum depth of the {@link Tree}.
+     */
     public Tree(Level level, ArrayList<Player> players, int maxDepth){
 
         this.maxDepth = maxDepth;
@@ -37,6 +44,13 @@ public class Tree {
     }
 
     // update the current tree with the received move
+
+    /**
+     * Re-form the tree in accordance with the given {@link Moves}.
+     * <P>
+     * NOTE: The provided {@link Moves} object is not formally verified in any way.
+     * @param move
+     */
     public void actuallyMove(Moves move){
         switch(move){
             case LEFT:
@@ -52,6 +66,7 @@ public class Tree {
                 this.root = this.root.children()[3];
                 break;
         }
+        // TODO: force gc collection:
         // no more references to useless part of the tree => will get GC
         this.root.setChildren(null);
         this.root.setParent(null);
@@ -61,6 +76,14 @@ public class Tree {
     }
 
     // returns the best move the given player
+
+    /**
+     * Traverses the game {@link Tree} recursively until it eventually returns the move which
+     * would lead to the best leaf {@link Node} path.
+     * the best move possible for the given {@link Characters}.
+     * @param character the {@link Characters} to compute the best move for.
+     * @return the best {@link Moves}.
+     */
     public Moves getBestMove(Characters character){
 
         int index = character.ordinal();
@@ -85,7 +108,11 @@ public class Tree {
         return this.getActualMove(bestNodeIndex);
     }
 
-    // returns the move that resulted in the leaf node given as its index
+    /**
+     * Returns the move to be made, all things considered after getBestMove is called.
+     * @param bestLeafIndex
+     * @return
+     */
     private Moves getActualMove(int bestLeafIndex){
         int current = (bestLeafIndex / 4);
         for(int i = this.maxDepth - 2; i > 0; i--){
@@ -100,12 +127,25 @@ public class Tree {
     }
 
     // returns the Node which has the smallest deviation in the scores of players other than the main (current) player
+
+    /**
+     * Returns the Node which presents the most minimal standard deviation in the final
+     * result for the rest of the players.
+     * @param minAdversaryScoreSum the {@link Node}s which represent the minimum adversary score desired.
+     * @return a {@link Node} for the way to go.
+     */
     private Node bestAdversaryDeviation(ArrayList<Node> minAdversaryScoreSum){
         // TODO eventually
         return minAdversaryScoreSum.get(new Random().nextInt(minAdversaryScoreSum.size()));
     }
 
-    // returns the list of Nodes which have the minimum total score for all players other than the main (current) player
+    /**
+     * Returns the {@link java.util.List} of {@link Node}s which have the minimal total score for all other
+     * players except the current (human-controlled) one.
+     * @param main the main {@link Characters}.
+     * @param maxValues the {@link java.util.List} of maximum-valued nodes.
+     * @return
+     */
     private ArrayList<Node> minAdversaryScoreSum(Characters main, ArrayList<Node> maxValues){
 
         ArrayList<Node> result = new ArrayList<>();
@@ -125,7 +165,12 @@ public class Tree {
 
     }
 
-    // computes the sum of the scores of all players other than the main (current) player
+    /**
+     * Computes the sum of scores of all {@link Characters} other than the main {@link Characters}.
+     * @param main the main {@link Characters}.
+     * @param node the given {@link Node} we are currently on in the game {@link Tree}.
+     * @return the {@link int} sum of the scores of all the other {@link Characters}.
+     */
     private int computeAdversaryScoreSum(Characters main, Node node){
         int sum = 0;
         for(int i = 0; i < node.points.length; i++){
@@ -136,6 +181,12 @@ public class Tree {
     }
 
     // returns a list of all the leaf nodes starting with the given root
+
+    /**
+     * Traverses the {@link Tree} and returns a {@link java.util.List} of the leaf {@link Node}s.
+     * @param node the {@link Node} from which to start.
+     * @return the {@link ArrayList} of the terminal {@link Node}s down the subtree.
+     */
     private ArrayList<Node> getLeafNodes(Node node){
         ArrayList<Node> leafNodes = new ArrayList<>();
         if (node.children() == null) {

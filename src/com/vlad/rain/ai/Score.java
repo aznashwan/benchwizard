@@ -10,12 +10,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Created by Vlad on 06.03.2016.
+ * A {@link Score} object keeps track of scores.
  */
 public class Score {
 
+    // an internal 'snapshot' of the current state of the map:
     private int[][] valueMap;
+
+    // a mapping between Characters and their respective x, y positions:
     private HashMap<Characters, Pair<Integer, Integer>> playerPositions;
+
+    // the game {@link Level} we are working on.
     private Level level;
 
     public Score(Level level){
@@ -33,7 +38,10 @@ public class Score {
         this.playerPositions = playerPositions;
     }
 
-    // creates value map 2D array from the level layout
+    /**
+     * Generates the int[][] map the {@link Score} object uses to keep
+     * track of the state of the game and later compute relevant move scores.
+     */
     private void generateValueMap() {
 
         valueMap = new int[level.getWidth()][level.getHeight()];
@@ -58,11 +66,18 @@ public class Score {
 
     }
 
-    // return the score after all moves starting from current valueMap of the @current player
+    /**
+     * returns the {@link int} score for the given {@link Character} after performing all
+     * of the provided {@link Moves}.
+     * @param current the current {@link Character} for whom the score should be computed.
+     * @param m a list of {@link Moves}.
+     * @return @{link int} representing the score for the given {@link Character}.
+     */
     public int score(Characters current, Moves[] m){
 
 //        System.out.println("Current: " + current + " moves " + m[0]);
 
+        // this line of code is nice; I like this line of code:
         int[][] valueMapClone = Arrays.stream(valueMap)
                 .map(int[]::clone)
                 .toArray(int[][]::new);
@@ -70,6 +85,7 @@ public class Score {
 
         int score = 0;
 
+        // for each move; execute execute the appropriate action:
         for (Moves aM : m) {
 
             int playerX = playerPositionsClone.get(current).fst,
@@ -111,6 +127,17 @@ public class Score {
 
     // processes the given map and player player positions
     // with the result of the move of player @current to position @X, @Y
+
+    /**
+     * Process the internal map representation {@link int[][]} according to the move of
+     * the player position.
+     * @param map the int[][] map
+     * @param playerPositions the map of {@link Characters} to their respective xOy coordinates.
+     * @param current the current {@link Characters}.
+     * @param X the {@link int} X position of the {@link Characters}.
+     * @param Y the {@link int} Y position of the {@link Characters}.
+     * @return
+     */
     private int processMap(int[][] map, HashMap<Characters,Pair<Integer, Integer>> playerPositions,
                            Characters current, int X, int Y){
 
@@ -126,6 +153,14 @@ public class Score {
     }
 
     // update valueMap with move m of character c: assumes move is legal
+
+    /**
+     * Updates the mapping between the {@link Characters} and their positions.
+     * <P>
+     * NOTE: assumes the provided {@link Moves} has already been validated.
+     * @param c the moving {@link Characters}.
+     * @param m the {@link Moves} the {@link Characters} has made.
+     */
     public void move(Characters c, Moves m){
 
         int     X = playerPositions.get(c).fst,

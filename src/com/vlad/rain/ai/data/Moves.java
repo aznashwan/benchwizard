@@ -1,7 +1,7 @@
 package com.vlad.rain.ai.data;
 
 /**
- * Created by Vlad on 06.03.2016.
+ * The types of moves that a player may make.
  */
 public enum Moves {
     LEFT, RIGHT, UP, DOWN

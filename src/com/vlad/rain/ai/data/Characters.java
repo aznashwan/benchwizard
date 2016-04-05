@@ -1,8 +1,12 @@
 package com.vlad.rain.ai.data;
 
 /**
- * Created by Vlad on 06.03.2016.
+ * Simple enum to differentiate the players in the game tree.
  */
 public enum Characters {
-    A, B, C, D
+    // first player; the actual human player
+    A,
+
+    // other bots
+    B, C, D
 }

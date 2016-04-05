@@ -1,8 +1,16 @@
 package com.vlad.rain.ai.data;
 
 /**
- * Created by vlad on 4/4/16.
+ * Enum for the three levels of difficulty.
+ *
  */
 public enum Difficulty {
-    EASY, MEDIUM, HARD
+    // stupid; random player
+    EASY,
+
+    // player quite deep in the game tree
+    MEDIUM,
+
+    // player which delves very deep in the game tree
+    HARD
 }
