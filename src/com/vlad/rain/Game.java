@@ -2,10 +2,12 @@ package com.vlad.rain;
 
 import com.vlad.rain.ai.Droid;
 import com.vlad.rain.ai.data.Characters;
+import com.vlad.rain.ai.data.Difficulty;
 import com.vlad.rain.entity.mob.Player;
 import com.vlad.rain.graphics.Screen;
 import com.vlad.rain.input.DummyKey;
 import com.vlad.rain.input.Key;
+import com.vlad.rain.input.SmartKey;
 import com.vlad.rain.level.Level;
 import com.vlad.rain.level.SpawnLevel;
 
@@ -24,8 +26,6 @@ public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	// used as the key for players whose turn it currently isn't:
-	private static final DummyKey dummyInput = new DummyKey();
 	
 	public static int width = 30 * 16;
 	public static int height = width / 16 * 9;
@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
 
 	private Thread thread;
 	private JFrame frame;
-	private Key key;
+    private ArrayList<Key> keys;
 	private Level level;
 	private boolean running = false;
 
@@ -54,6 +54,10 @@ public class Game extends Canvas implements Runnable {
     // input controller for AI
     private Droid droid;
 
+
+    // used as the key for players whose turn it currently isn't:
+    private final DummyKey dummyInput = new DummyKey(droid);
+
     private Screen screen;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -68,8 +72,9 @@ public class Game extends Canvas implements Runnable {
 		screen =  new Screen(width, height);
 		
 		frame = new JFrame();
-		
-		key = new Key();
+
+        keys = new ArrayList<>();
+
 		level = new SpawnLevel("/level.png");
 
 		// NOTE: proper initialisation of numPlayers and current player index is vital:
@@ -78,7 +83,7 @@ public class Game extends Canvas implements Runnable {
 		this.currentPlayerMoved = false;
 
 		// add one player:
-		Player p = new Player(2*16, 2*16, key, Characters.A);
+		Player p = new Player(2*16, 2*16, dummyInput, Characters.A);
 		p.init(level);
 		players.add(p);
 
@@ -94,7 +99,20 @@ public class Game extends Canvas implements Runnable {
         p.init(level);
         players.add(p);
 
+        this.droid = new Droid(level, players, Difficulty.MEDIUM);
+
+        Key key = new Key(droid);
+        keys.add(key);
+
+		Key smartKey = new SmartKey(droid);
+        for(int i = 1; i < players.size(); i++){
+            keys.add(smartKey);
+        }
+
+        players.get(0).input = keys.get(0);
+
 		addKeyListener(key);
+        addKeyListener(smartKey);
 
 	}
 	
@@ -162,7 +180,7 @@ public class Game extends Canvas implements Runnable {
 				} else if (this.currentPlayerMoved && !p.moving) { // else, when the player has moved and stopped his turn:
 					// also, switch the input to the next player:
 					this.currentPlayerIndex = (i + 1) % this.numPlayers;
-					this.players.get(this.currentPlayerIndex).input = this.key;
+					this.players.get(this.currentPlayerIndex).input = this.keys.get(currentPlayerIndex);
 					this.currentPlayerMoved = false;
 				}
 			}
